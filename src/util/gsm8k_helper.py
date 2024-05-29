@@ -1,29 +1,29 @@
 import random
 
-# def nshot_prompt(nshot_data: list, n: int, question: str, bos='<|begin_of_text|>', eos='<|eot_id|>') -> str:
-#     random.seed(42)
-
-#     prompt = ''
-#     for qna in random.sample(nshot_data, n):
-#         prompt += f'''
-#         {bos}[INST]{qna["question"]}[/INST]
-#         Assistant: {qna["answer"]}{eos}
-#         '''
-
-#     return prompt + f'''
-#     {bos}[INST]{question}'[/INST]
-#     Assistant: '''  # no eos here!
-
-
 def nshot_chats(nshot_data: list, n: int, question: str) -> dict:
+
+    def question_prompt(s):
+        return f'Question: {s}'
+
+    def answer_prompt(s):
+        return f'Answer: {s}'
+
+    chats = [
+        # {
+        #     "role": "system",
+        #     "content": "You are a grade school math problem solver. At the end, you MUST write the answer as an integer after '####'. Let's think step by step.",
+        # },
+    ]
+
     random.seed(42)
-
-    chats = []
     for qna in random.sample(nshot_data, n):
-        chats.append({"role": "user", "content": qna["question"]})
-        chats.append({"role": "assistant", "content": qna["answer"]})
+        chats.append(
+            {"role": "user", "content": question_prompt(qna["question"])})
+        chats.append(
+            {"role": "assistant", "content": answer_prompt(qna["answer"])})
 
-    chats.append({"role": "user", "content": question})
+    chats.append({"role": "user", "content": question_prompt(question)+"Let's think step by step. At the end, you MUST write the answer as an integer after '####'."})
+
     return chats
 
 
@@ -32,6 +32,11 @@ def extract_ans_from_response(answer: str, eos=None):
         answer = answer.split(eos)[0].strip()
 
     answer = answer.split('####')[-1].strip()
-    answer = answer.replace(',', '').replace('$', '')
 
-    return answer
+    for remove_char in [',', '$', '%', 'g']:
+        answer = answer.replace(remove_char, '')
+
+    try:
+        return int(answer)
+    except ValueError:
+        return answer
