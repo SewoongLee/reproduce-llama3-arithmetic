@@ -2,7 +2,7 @@
 
 This repository contains the companion code for two tutorial posts on Medium:
 
-- [How to Use Llama 3 Instruct on Hugging Face](https://medium.com/@sewoong.lee/how-to-reproduce-llama-3s-performance-on-gsm-8k-e0dce7fe9926)
+- [How to Use Llama 3 Instruct on Hugging Face](https://medium.com/@sewoong.lee/how-to-use-llama-3-instruct-on-hugging-face-5cc8409c4ab7)
 - [How to Reproduce Llama-3's Performance on GSM-8k](https://medium.com/@sewoong.lee/how-to-reproduce-llama-3s-performance-on-gsm-8k-e0dce7fe9926)
 
 It shows how to:
